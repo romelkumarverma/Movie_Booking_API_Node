@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const env = require("dotenv");
 const mongoose = require("mongoose")
+const Movie = require('./models/movie.model')
+
+const MovieRoutes = require('./routes/movie.routes');
 
 env.config();
 
@@ -10,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+MovieRoutes(app); // Inoking movie Routes
 
 app.get("/home", (req, res) => {
     return res.json({
@@ -24,6 +29,18 @@ app.listen(PORT, async () => {
     try{
         await mongoose.connect(process.env.DB_URL);
         console.log("Successfully connected to mongodb database...")
+
+        // await Movie.create({
+        //     name: "Bachan Pandey",
+        //     description: "Comedy movie",
+        //     casts:["Akshay","kriti","Arshad"],
+        //     director: "Farhad Samji",
+        //     trailerUrl: "http://bachanpandey/trailers/1",
+        //     language: "Hindi",
+        //     releaseDate: "18-03-2022",
+        //     releaseStatus: "RELEASED"
+        // }) 
+
     } catch (err) {
         console.log("Not able to connect...", err);
     }
