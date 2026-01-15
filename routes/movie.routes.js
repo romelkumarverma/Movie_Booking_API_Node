@@ -14,8 +14,13 @@ const routes = (app) => {
     )
 
     app.get(
+        '/mba/api/v1/movies',
+        movieController.getMovies
+    )
+
+    app.get(
         '/mba/api/v1/movies/:id',
-        movieController.getMovie
+        movieController.getMovieById
     )
 }
 

@@ -59,7 +59,31 @@ const deleteMovie = async (req, res) => {
     }
 }
 
-const getMovie = async (req, res) => {
+const getMovies = async (req, res) => {
+    try {
+        const response = await movieService.getAllMovies();
+
+        if (response.err) {
+            errorResponseBody.err = response.err;
+            return res.status(response.code).json(errorResponseBody);
+        }
+
+        successResponseBody.data = response;
+        return res.status(200).json(successResponseBody);
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            error: err,
+            data: {},
+            message: "Something went wrong..."
+        });
+    }
+};
+
+
+const getMovieById = async (req, res) => {
     try {
         const response = await movieService.getMovieById(req.params.id);
 
@@ -83,4 +107,4 @@ const getMovie = async (req, res) => {
 
 
 
-module.exports = { createMovie, deleteMovie, getMovie }
+module.exports = { createMovie, deleteMovie, getMovies, getMovieById }

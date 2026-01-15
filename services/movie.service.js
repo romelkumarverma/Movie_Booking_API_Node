@@ -12,4 +12,25 @@ const getMovieById  = async(id) => {
     return movie;
 }
 
-module.exports = {getMovieById}
+const getAllMovies = async () => {
+    try {
+        const movies = await Movie.find();
+
+        if (!movies || movies.length === 0) {
+            return {
+                err: "No movies found",
+                code: 404
+            };
+        }
+
+        return movies;
+    } catch (error) {
+        return {
+            err: error.message,
+            code: 500
+        };
+    }
+};
+
+
+module.exports = {getMovieById, getAllMovies}
