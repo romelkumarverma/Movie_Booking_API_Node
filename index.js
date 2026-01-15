@@ -29,18 +29,6 @@ app.listen(PORT, async () => {
     try{
         await mongoose.connect(process.env.DB_URL);
         console.log("Successfully connected to mongodb database...")
-
-        // await Movie.create({
-        //     name: "Bachan Pandey",
-        //     description: "Comedy movie",
-        //     casts:["Akshay","kriti","Arshad"],
-        //     director: "Farhad Samji",
-        //     trailerUrl: "http://bachanpandey/trailers/1",
-        //     language: "Hindi",
-        //     releaseDate: "18-03-2022",
-        //     releaseStatus: "RELEASED"
-        // }) 
-
     } catch (err) {
         console.log("Not able to connect...", err);
     }
