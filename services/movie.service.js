@@ -1,5 +1,11 @@
 const Movie = require('../models/movie.model');
 
+
+const crateMovie = async(data) =>{
+    const movie = await Movie.create(data);
+    return movie;
+}
+
 const getMovieById  = async(id) => {
     const movie = Movie.findById(id);
     console.log("Movie found...", movie.id);
@@ -32,5 +38,10 @@ const getAllMovies = async () => {
     }
 };
 
+const deleteMovie = async (id) =>{
+    const response = await Movie.findByIdAndDelete(id);
+    return response;
+}
 
-module.exports = {getMovieById, getAllMovies}
+
+module.exports = {crateMovie, getMovieById, getAllMovies, deleteMovie}
