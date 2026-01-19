@@ -1,15 +1,31 @@
 const Movie = require('../models/movie.model');
 
 
-const crateMovie = async(data) =>{
-    const movie = await Movie.create(data);
-    return movie;
+const crateMovie = async (data) => {
+    try {
+        const movie = await Movie.create(data);
+        return movie;
+    } catch (error) {
+        if(error.name == 'validationError')
+        {
+            let err = {};
+            Object.keys(error.errors).forEach((key) =>{
+                err[key] = error.errors[key].message;
+            })
+            console.log(err);
+            return {err: err, code: 422}
+        }
+        else
+        {
+            throw error;
+        }
+    }
 }
 
-const getMovieById  = async(id) => {
+const getMovieById = async (id) => {
     const movie = Movie.findById(id);
     console.log("Movie found...", movie.id);
-    if(!movie) {
+    if (!movie) {
         return {
             err: "No movie found for the corresponding id provided...",
             code: 404
@@ -38,10 +54,10 @@ const getAllMovies = async () => {
     }
 };
 
-const deleteMovie = async (id) =>{
+const deleteMovie = async (id) => {
     const response = await Movie.findByIdAndDelete(id);
     return response;
 }
 
 
-module.exports = {crateMovie, getMovieById, getAllMovies, deleteMovie}
+module.exports = { crateMovie, getMovieById, getAllMovies, deleteMovie }
